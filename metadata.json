@@ -1,0 +1,6 @@
+{
+  "name": "Villanueva Waste Operations",
+  "description": "Municipal waste collection scheduling, dispatch tracking, and SMS resident concern management for Villanueva, Misamis Oriental.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
