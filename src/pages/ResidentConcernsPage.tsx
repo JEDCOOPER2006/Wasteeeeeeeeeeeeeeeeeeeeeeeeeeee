@@ -129,14 +129,6 @@ export const ResidentConcernsPage: React.FC = () => {
                 className="w-full sm:w-60 rounded-lg border border-neutral-200 bg-white py-2 pl-9 pr-3 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-emerald-600 dark:border-[#24362E] dark:bg-[#0E1713] dark:text-neutral-100"
               />
             </div>
-            <button
-              type="button"
-              onClick={openConcernModal}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-700 px-3.5 py-2 text-xs font-semibold text-white hover:bg-emerald-800 whitespace-nowrap shrink-0"
-            >
-              <Plus className="h-3.5 w-3.5" aria-hidden="true" />
-              Record Concern
-            </button>
           </div>
         </div>
 

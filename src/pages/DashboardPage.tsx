@@ -173,16 +173,7 @@ export const DashboardPage: React.FC = () => {
               Add Schedule
             </button>
           )}
-          {user.role === 'barangay_head' && (
-            <button
-              type="button"
-              onClick={() => navigate('concerns', { openConcern: true })}
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-700 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-emerald-800 whitespace-nowrap shrink-0"
-            >
-              <Plus className="h-4 w-4" aria-hidden="true" />
-              Record Concern
-            </button>
-          )}
+         {/* Record Concern button removed from Barangay Head Dashboard */}
           {user.role === 'driver' && (
             <button
               type="button"
