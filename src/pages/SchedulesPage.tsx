@@ -1,8 +1,9 @@
+
 import React, { useMemo, useState } from 'react';
 import { Download, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { ScheduleStatusTag } from '../components/StatusBadge';
 import { useWaste } from '../lib/store';
-import { Status } from '../lib/types';
+import { Status, TEAM_OPTIONS } from '../lib/types';
 import { downloadCsv, time12 } from '../lib/utils';
 
 type StatusFilter = 'all' | Status;
@@ -24,18 +25,28 @@ export const SchedulesPage: React.FC = () => {
 
   const filtered = useMemo(() => {
     const q = searchText.toLowerCase().trim();
+
     return visibleSchedules
       .filter((s) => {
         if (statusFilter !== 'all' && s.status !== statusFilter) return false;
         if (!q) return true;
-        return [s.area, s.date, s.time, s.team, s.status].some((v) => String(v).toLowerCase().includes(q));
+
+        return [s.area, s.date, s.time, s.team, s.status]
+          .some((v) => String(v).toLowerCase().includes(q));
       })
       .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
   }, [visibleSchedules, searchText, statusFilter]);
 
   const handleExport = () => {
-    const header = ['Area', 'Date', 'Time', 'Team', 'Status'];
-    const rows = filtered.map((s) => [s.area, s.date, s.time, s.team, s.status]);
+    const header = ['Area', 'Date', 'Time', 'Assigned Team', 'Status'];
+    const rows = filtered.map((s) => [
+      s.area,
+      s.date,
+      s.time,
+      s.team,
+      s.status,
+    ]);
+
     downloadCsv('waste-collection-schedules.csv', [header, ...rows]);
   };
 
@@ -99,7 +110,6 @@ export const SchedulesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Segmented Filter Tabs */}
       <div className="border-b border-neutral-200 px-5 py-3 dark:border-[#1E2D26]">
         <div className="inline-flex flex-wrap gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-[#0E1612]">
           {tabs.map((tab) => (
@@ -131,6 +141,7 @@ export const SchedulesPage: React.FC = () => {
               <th className="px-5 py-3 text-right">Actions</th>
             </tr>
           </thead>
+
           <tbody className="divide-y divide-neutral-100 dark:divide-[#1E2D26]">
             {schedulesLoading ? (
               Array.from({ length: 4 }).map((_, i) => (
@@ -146,6 +157,7 @@ export const SchedulesPage: React.FC = () => {
                   <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                     No matching collection schedules found.
                   </p>
+
                   {canManage && (
                     <button
                       type="button"
@@ -161,17 +173,30 @@ export const SchedulesPage: React.FC = () => {
             ) : (
               filtered.map((s) => (
                 <tr key={s.id} className="hover:bg-neutral-50/80 dark:hover:bg-white/[0.02]">
-                  <td className="px-5 py-3.5 font-medium text-neutral-900 dark:text-neutral-100">{s.area}</td>
+                  <td className="px-5 py-3.5 font-medium text-neutral-900 dark:text-neutral-100">
+                    {s.area}
+                  </td>
+
                   <td className="tabular-nums px-5 py-3.5 font-mono text-xs text-neutral-600 dark:text-neutral-300">
                     {s.date}
                   </td>
+
                   <td className="tabular-nums px-5 py-3.5 font-mono text-xs text-neutral-600 dark:text-neutral-300">
                     {time12(s.time)}
                   </td>
-                  <td className="px-5 py-3.5 text-neutral-700 dark:text-neutral-300">{s.team}</td>
+
+                  <td className="px-5 py-3.5 text-neutral-700 dark:text-neutral-300">
+                    <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
+                      {TEAM_OPTIONS.includes(s.team as (typeof TEAM_OPTIONS)[number])
+                        ? s.team
+                        : s.team || 'Unassigned'}
+                    </span>
+                  </td>
+
                   <td className="px-5 py-3.5">
                     <ScheduleStatusTag status={s.status} />
                   </td>
+
                   <td className="px-5 py-3.5 text-right">
                     {canManage ? (
                       <div className="inline-flex items-center gap-2">
@@ -183,6 +208,7 @@ export const SchedulesPage: React.FC = () => {
                           <Pencil className="h-3 w-3" aria-hidden="true" />
                           Edit
                         </button>
+
                         <button
                           type="button"
                           onClick={() => deleteSchedule(s)}
@@ -193,7 +219,9 @@ export const SchedulesPage: React.FC = () => {
                         </button>
                       </div>
                     ) : (
-                      <span className="text-xs text-neutral-400 dark:text-neutral-500">View only</span>
+                      <span className="text-xs text-neutral-400 dark:text-neutral-500">
+                        View only
+                      </span>
                     )}
                   </td>
                 </tr>

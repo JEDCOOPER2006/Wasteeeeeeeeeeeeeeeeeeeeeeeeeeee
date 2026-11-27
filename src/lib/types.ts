@@ -1,4 +1,14 @@
+
 export type Role = 'admin' | 'driver' | 'barangay_head';
+
+// Fixed team options used throughout the system
+export const TEAM_OPTIONS = [
+  'Team Alpha',
+  'Team Bravo',
+  'Team Charlie',
+] as const;
+
+export type Team = (typeof TEAM_OPTIONS)[number];
 
 export interface Prefs {
   notifyToday: boolean;

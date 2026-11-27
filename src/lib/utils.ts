@@ -16,11 +16,11 @@ export const NAV_ITEMS: NavItem[] = [
     roles: ALL_ROLES,
   },
   {
-    id: 'personnel',
-    label: 'Personnel',
-    subtitle: 'Manage staff accounts, roles, barangay assignments, and SMS gateways.',
-    roles: ['admin'],
-  },
+  id: 'personnel',
+  label: 'Users',
+  subtitle: 'Manage user accounts, roles, barangay assignments, and SMS gateways.',
+  roles: ['admin'],
+},
   {
     id: 'records',
     label: 'Collection Records',
